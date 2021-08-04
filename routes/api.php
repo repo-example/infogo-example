@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/v1/users', [UserController::class, 'register']);
+Route::get('/v1/users', [UserController::class, 'list']);
 Route::get('/v1/users/{id}', [UserController::class, 'byId']);
 Route::get('/v1/users/{id}/name', [UserController::class, 'updateName']);

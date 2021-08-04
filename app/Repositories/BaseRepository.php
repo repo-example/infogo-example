@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseRepository
 {
@@ -28,6 +29,14 @@ abstract class BaseRepository
     public function all(): Collection
     {
         return $this->model->all();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function paginate(): LengthAwarePaginator
+    {
+        return $this->model->paginate();
     }
 
     /**

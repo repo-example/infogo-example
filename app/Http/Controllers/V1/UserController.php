@@ -41,7 +41,14 @@ class UserController extends Controller
     {
         $user = $this->userService->byId($id);
 
-        return new UserDetailResource($user);
+        return response()->success(new UserDetailResource($user));
+    }
+
+    public function list()
+    {
+        $users = $this->userService->all();
+
+        return response()->success(UserDetailResource::collection($users));
     }
 
     /**
@@ -55,8 +62,6 @@ class UserController extends Controller
     {
         $this->userService->updateName($id, $request);
 
-        return [
-            'success' => true,
-        ];
+        return response()->success(['result' => 'ok']);
     }
 }

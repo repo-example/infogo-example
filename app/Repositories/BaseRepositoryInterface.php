@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface BaseRepositoryInterface
 {
@@ -23,13 +24,20 @@ interface BaseRepositoryInterface
     public function find($id): ?Model;
 
     /**
-     * 根据某个字段查询
+     * 根据某个字段查询结果
      *
      * @param string $field
      * @param string $value
      * @return mixed
      */
     public function findBy(string $field, $value);
+
+    /**
+     * 分页查询
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate(): LengthAwarePaginator;
 
     /**
      * 保存模型

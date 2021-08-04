@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-interface UserRepositoryInterface
+interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * 根据 ID 查找用户

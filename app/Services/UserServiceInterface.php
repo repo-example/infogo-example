@@ -5,9 +5,17 @@ namespace App\Services;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserNameRequest;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserServiceInterface
 {
+    /**
+     * 查询全部用户
+     *
+     * @return LengthAwarePaginator
+     */
+    public function all(): LengthAwarePaginator;
+
     /**
      * 根据 ID 查找用户
      *

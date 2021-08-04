@@ -2,27 +2,37 @@
 
 namespace App\Services;
 
+use App\Events\UserCreated;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserNameRequest;
 use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 class UserService implements UserServiceInterface
 {
     /**
-     * @var UserRepository
+     * @var UserRepositoryInterface
      */
     private $userRepository;
 
     /**
      * UserService constructor
      *
-     * @param UserRepository $userRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->userRepository  = $userRepository;
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function all(): LengthAwarePaginator
+    {
+        return $this->userRepository->paginate();
     }
 
     /**
@@ -43,8 +53,11 @@ class UserService implements UserServiceInterface
         $user = $this->userRepository->create([
             'username' => $request->username,
             'password' => $request->password,
+            'name' => $request->name,
             'api_token' => $token
         ]);
+
+        event(new UserCreated($user));
 
         return $user;
     }
