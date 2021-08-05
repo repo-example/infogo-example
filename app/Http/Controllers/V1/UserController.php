@@ -11,7 +11,7 @@ use App\Services\UserServiceInterface;
 
 class UserController extends Controller
 {
-    private $userService;
+    private UserServiceInterface $userService;
 
     public function __construct(UserServiceInterface $userService)
     {

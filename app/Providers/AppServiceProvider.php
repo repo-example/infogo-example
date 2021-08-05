@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Http\Respond;
 use App\Services\MessageServiceInterface;
 use App\Services\RedisMessageService;
+use App\Services\SearchService;
+use App\Services\SearchServiceInterface;
 use App\Services\UserService;
 use App\Services\UserServiceInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         // services
         $this->app->bind(UserServiceInterface::class, UserService::class);
         $this->app->bind(MessageServiceInterface::class, RedisMessageService::class);
+        $this->app->bind(SearchServiceInterface::class, SearchService::class);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserNameRequest;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -15,16 +16,22 @@ class UserService implements UserServiceInterface
     /**
      * @var UserRepositoryInterface
      */
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
+
+    /**
+     * @var Hasher
+     */
+    private Hasher $hasher;
 
     /**
      * UserService constructor
      *
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository, Hasher $hasher)
     {
         $this->userRepository = $userRepository;
+        $this->hasher = $hasher;
     }
 
     /**
@@ -52,7 +59,7 @@ class UserService implements UserServiceInterface
 
         $user = $this->userRepository->create([
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => $this->hasher->make($request->password),
             'name' => $request->name,
             'api_token' => $token
         ]);
